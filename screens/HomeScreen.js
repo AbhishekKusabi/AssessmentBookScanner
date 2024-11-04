@@ -12,15 +12,13 @@ export default function HomeScreen({ navigation }) {
 
   const loadRecentMarks = async () => {
     const marks = await getAllMarks();
-    setRecentMarks(marks.slice(0, 4)); // Show only last 4 entries
+    setRecentMarks(marks.slice(0, 5)); // Show only last 5 entries
   };
 
-  // Refresh marks when screen comes into focus
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       loadRecentMarks();
     });
-
     return unsubscribe;
   }, [navigation]);
 
@@ -42,7 +40,7 @@ export default function HomeScreen({ navigation }) {
           </Button>
           <Button 
             mode="outlined" 
-            onPress={() => navigation.navigate('History')}
+            onPress={() => console.log('View history')}
             style={styles.actionButton}
           >
             History
@@ -59,23 +57,12 @@ export default function HomeScreen({ navigation }) {
             recentMarks.map((mark) => (
               <List.Item
                 key={mark.id}
-                title={`${mark.studentDetails.name}`}
-                description={
-                  <View>
-                    <Text>USN: {mark.studentDetails.usn}</Text>
-                    <Text>Class {mark.class} {mark.section} • Total: {mark.marks.total}/25</Text>
-                    <Text style={styles.timestamp}>
-                      {new Date(mark.timestamp).toLocaleDateString()}
-                    </Text>
-                  </View>
-                }
+                title={`${mark.studentDetails.name} (${mark.studentDetails.usn})`}
+                description={`Class ${mark.class} ${mark.section} - Total: ${mark.marks.total}`}
                 left={props => <List.Icon {...props} icon="file-document" />}
-                right={props => <Text {...props} style={styles.totalMark}>{mark.marks.total}</Text>}
                 onPress={() => {
-                  // Navigate to details view (we'll create this later)
                   console.log('View details:', mark);
                 }}
-                style={styles.listItem}
               />
             ))
           ) : (
@@ -119,16 +106,5 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     borderColor: 'red',
-  },
-  listItem: {
-    padding: 10,
-  },
-  timestamp: {
-    fontSize: 12,
-    color: 'gray',
-  },
-  totalMark: {
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 }); 
