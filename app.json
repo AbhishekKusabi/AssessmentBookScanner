@@ -11,17 +11,28 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.assessment.bookscanner",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": ["CAMERA"]
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    "scheme": "assessmentbookscanner",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Allow Assessment Book Scanner to access your camera."
+        }
+      ]
+    ]
   }
 }
