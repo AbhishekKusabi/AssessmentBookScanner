@@ -3,6 +3,52 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import { Button, Card, IconButton } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 
+const SCAN_REGIONS = {
+  usn: {
+    label: 'USN',
+    top: '15%',
+    left: '10%',
+    width: '80%',
+    height: '10%'
+  },
+  ia1Total: {
+    label: 'IA1 Total',
+    top: '50%',
+    left: '70%',
+    width: '15%',
+    height: '5%'
+  },
+  ia2Total: {
+    label: 'IA2 Total',
+    top: '75%',
+    left: '70%',
+    width: '15%',
+    height: '5%'
+  }
+};
+
+// Add scanning guides to the camera view
+const CameraOverlay = () => (
+  <View style={styles.overlay}>
+    {Object.values(SCAN_REGIONS).map(region => (
+      <View
+        key={region.label}
+        style={[
+          styles.scanRegion,
+          {
+            top: region.top,
+            left: region.left,
+            width: region.width,
+            height: region.height
+          }
+        ]}
+      >
+        <Text style={styles.scanLabel}>{region.label}</Text>
+      </View>
+    ))}
+  </View>
+);
+
 export default function ScannerScreen({ route, navigation }) {
   const { selectedClass, selectedSection } = route.params || {};
   const [image, setImage] = useState(null);
@@ -170,5 +216,31 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 5,
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  scanRegion: {
+    position: 'absolute',
+    borderWidth: 2,
+    borderColor: '#4CAF50',
+    borderStyle: 'dashed',
+  },
+  scanLabel: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    textAlign: 'center',
+    color: '#4CAF50',
   },
 }); 
